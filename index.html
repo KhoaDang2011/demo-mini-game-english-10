@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="EngGame Grade 10 - Nền tảng học tập và ôn luyện tiếng Anh lớp 10 tương tác.">
+<title>EngGame 10 - Interactive Learning Platform</title>
+<!-- External Stylesheet Link -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- A. APP CONTAINER -->
+    <div id="app" class="app-container">
+
+        <!-- B. SIDEBAR / NAVIGATION -->
+        <aside id="sidebar" class="sidebar" aria-label="Sidebar Navigation" data-collapsed="false">
+            <div class="sidebar-header">
+                <div class="brand-logo" id="brand-logo">
+                    <span class="brand-icon" aria-hidden="true">⚡</span>
+                    <span class="brand-title">ENG<span class="brand-accent">10</span></span>
+                </div>
+                <button type="button" id="sidebar-toggle-btn" class="icon-button hamburger-btn" aria-label="Toggle Sidebar" aria-expanded="true">
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link active" data-target="screen-dashboard" id="nav-dashboard">
+                            <span class="nav-icon" aria-hidden="true">🏠</span>
+                            <span class="nav-text" data-i18n="nav_home">Trang chủ</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-target="screen-game-select" id="nav-play">
+                            <span class="nav-icon" aria-hidden="true">🎮</span>
+                            <span class="nav-text" data-i18n="nav_play">Chơi</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-target="screen-profile" id="nav-profile">
+                            <span class="nav-icon" aria-hidden="true">👤</span>
+                            <span class="nav-text" data-i18n="nav_profile">Hồ sơ</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-target="screen-achievements" id="nav-achievements">
+                            <span class="nav-icon" aria-hidden="true">🏆</span>
+                            <span class="nav-text" data-i18n="nav_achievements">Thành tích</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-target="screen-certificate" id="nav-certificate">
+                            <span class="nav-icon" aria-hidden="true">📜</span>
+                            <span class="nav-text" data-i18n="nav_certificate">Chứng chỉ</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-target="screen-settings" id="nav-settings">
+                            <span class="nav-icon" aria-hidden="true">⚙️</span>
+                            <span class="nav-text" data-i18n="nav_settings">Cài đặt</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-target="screen-about" id="nav-about">
+                            <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                            <span class="nav-text" data-i18n="nav_about">About Me</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-chip-mini" id="sidebar-user-chip">
+                    <span class="user-avatar-mini" id="user-mini-avatar">🎓</span>
+                    <div class="user-details-mini">
+                        <span class="user-mini-name" id="user-mini-name">Guest User</span>
+                        <span class="user-mini-role" id="user-mini-role">Học sinh</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- BACKDROP FOR MOBILE DRAWER -->
+        <div id="sidebar-backdrop" class="sidebar-backdrop" tabindex="-1" aria-hidden="true"></div>
+
+        <!-- MAIN LAYOUT WRAPPER -->
+        <div class="main-wrapper">
+
+            <!-- C. HEADER / TOP BAR -->
+            <header id="top-bar" class="top-bar">
+                <div class="top-bar-left">
+                    <button type="button" id="mobile-menu-btn" class="icon-button mobile-menu-btn" aria-label="Open Navigation Menu">
+                        <span class="hamburger-bar"></span>
+                        <span class="hamburger-bar"></span>
+                        <span class="hamburger-bar"></span>
+                    </button>
+                    <h1 class="page-title" id="page-title" data-i18n="title_dashboard">Dashboard</h1>
+                </div>
+
+                <div class="top-bar-right">
+                    <!-- Global Streak Counter -->
+                    <div class="stat-pill streak-pill" title="Current Global Streak">
+                        <span class="pill-icon" aria-hidden="true">🔥</span>
+                        <span class="pill-label" data-i18n="hud_streak">Streak:</span>
+                        <span class="pill-value" id="top-streak-count">0</span>
+                    </div>
+
+                    <!-- Global Score -->
+                    <div class="stat-pill score-pill" title="Total Accumulated Score">
+                        <span class="pill-icon" aria-hidden="true">⭐</span>
+                        <span class="pill-value" id="top-total-score">0</span>
+                    </div>
+
+                    <!-- Theme Switcher -->
+                    <button type="button" id="theme-toggle-btn" class="icon-button" aria-label="Toggle Theme Mode" title="Toggle Light/Dark Mode">
+                        <span id="theme-toggle-icon" aria-hidden="true">☀️</span>
+                    </button>
+
+                    <!-- Language Switcher -->
+                    <button type="button" id="lang-toggle-btn" class="icon-button lang-badge" aria-label="Toggle Language" title="Switch English/Vietnamese">
+                        <span id="lang-toggle-label">VI</span>
+                    </button>
+
+                    <!-- Verification Status Trigger -->
+                    <button type="button" id="bot-shield-btn" class="icon-button verified-badge" aria-label="Security Status" title="Anti-Bot Security Check">
+                        <span id="bot-shield-icon" aria-hidden="true">🛡️</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN CONTENT AREA (SPA SECTIONS) -->
+            <main id="main-content" class="content-viewport">
+
+                <!-- D. AUTH / REGISTER SCREEN -->
+                <section id="screen-register" class="app-screen auth-screen" aria-labelledby="register-heading">
+                    <div class="auth-card">
+                        <div class="auth-card-header">
+                            <div class="auth-logo-badge" aria-hidden="true">🚀</div>
+                            <h2 id="register-heading" class="auth-title" data-i18n="reg_title">Tham Gia EngGame 10</h2>
+                            <p class="auth-subtitle" data-i18n="reg_subtitle">Điền thông tin để bắt đầu hành trình chinh phục tiếng Anh</p>
+                        </div>
+
+                        <form id="form-register" class="auth-form" novalidate>
+                            <div class="form-group">
+                                <label for="reg-fullname" class="form-label">
+                                    <span data-i18n="reg_name_label">Họ và Tên</span> <span class="required-mark">*</span>
+                                </label>
+                                <input type="text" id="reg-fullname" name="fullname" class="form-input" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="name" required>
+                                <span class="form-error-msg" id="error-fullname" aria-live="polite"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reg-dob" class="form-label">
+                                    <span data-i18n="reg_dob_label">Ngày tháng năm sinh</span> <span class="required-mark">*</span>
+                                </label>
+                                <input type="date" id="reg-dob" name="dob" class="form-input" required>
+                                <span class="form-error-msg" id="error-dob" aria-live="polite"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reg-email" class="form-label">
+                                    <span data-i18n="reg_email_label">Email</span> <span class="optional-mark">(không bắt buộc)</span>
+                                </label>
+                                <input type="email" id="reg-email" name="email" class="form-input" placeholder="example@email.com" autocomplete="email">
+                                <span class="form-error-msg" id="error-email" aria-live="polite"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reg-role" class="form-label">
+                                    <span data-i18n="reg_role_label">Vai trò / Nghề nghiệp</span> <span class="required-mark">*</span>
+                                </label>
+                                <select id="reg-role" name="role" class="form-select" required>
+                                    <option value="" disabled selected data-i18n="reg_role_select">-- Chọn vai trò --</option>
+                                    <option value="student" data-i18n="reg_role_student">Học sinh</option>
+                                    <option value="teacher" data-i18n="reg_role_teacher">Giáo viên</option>
+                                </select>
+                                <span class="form-error-msg" id="error-role" aria-live="polite"></span>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" id="btn-submit-register" class="btn btn-primary btn-block">
+                                    <span data-i18n="reg_btn_start">Bắt Đầu Học Ngay</span>
+                                    <span class="btn-arrow" aria-hidden="true">→</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- E. DASHBOARD -->
+                <section id="screen-dashboard" class="app-screen dashboard-screen active" aria-labelledby="dash-welcome">
+                    <div class="dashboard-hero">
+                        <div class="hero-text-content">
+                            <span class="hero-badge" data-i18n="dash_welcome_badge">Học Kỳ Tiếng Anh 10</span>
+                            <h2 id="dash-welcome" class="hero-greeting">
+                                <span data-i18n="dash_greeting">Xin chào,</span> <span id="dash-user-name" class="user-name-highlight">Người chơi</span>!
+                            </h2>
+                            <p class="hero-subtext" data-i18n="dash_quote">Sẵn sàng nâng cao vốn từ vựng và nắm vững ngữ pháp hôm nay?</p>
+                            <div class="hero-actions">
+                                <button type="button" class="btn btn-primary btn-lg" id="dash-btn-play">
+                                    <span aria-hidden="true">🎮</span>
+                                    <span data-i18n="dash_btn_play">Chơi Ngay</span>
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="dash-btn-view-cert">
+                                    <span aria-hidden="true">📜</span>
+                                    <span data-i18n="dash_btn_cert">Xem Chứng Chỉ</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="hero-visual" aria-hidden="true">
+                            <div class="visual-card">
+                                <span class="visual-emoji">🏆</span>
+                                <div class="visual-meta">
+                                    <span class="visual-label">Rank</span>
+                                    <span class="visual-val" id="dash-rank-title">Master Scholar</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- METRICS GRID -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper stat-blue" aria-hidden="true">⭐</div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_total_score">Tổng Điểm</span>
+                                <span class="stat-number" id="dash-total-score">0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper stat-green" aria-hidden="true">✅</div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_correct">Tổng Câu Đúng</span>
+                                <span class="stat-number" id="dash-total-correct">0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper stat-red" aria-hidden="true">❌</div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_wrong">Tổng Câu Sai</span>
+                                <span class="stat-number" id="dash-total-wrong">0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper stat-orange" aria-hidden="true">🔥</div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_streak">Chuỗi Thắng (Streak)</span>
+                                <span class="stat-number" id="dash-streak-count">0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper stat-purple" aria-hidden="true">🎯</div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_highest_level">Màn Cao Nhất</span>
+                                <span class="stat-number" id="dash-highest-level">Level 1</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper stat-teal" aria-hidden="true">🔓</div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_type3_status">Trạng Thái Type 3</span>
+                                <span class="stat-status-badge locked" id="dash-type3-status" data-i18n="status_locked">ĐANG KHÓA</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- F. GAME SELECTION -->
+                <section id="screen-game-select" class="app-screen game-select-screen" aria-labelledby="select-game-heading">
+                    <div class="section-header">
+                        <h2 id="select-game-heading" class="section-title" data-i18n="game_select_title">Chọn Chế Độ Chơi</h2>
+                        <p class="section-desc" data-i18n="game_select_desc">Vượt qua các dạng bài tập để mở khóa các mini-game đặc biệt</p>
+                    </div>
+
+                    <div class="game-cards-grid">
+                        <!-- GAME CARD 1 -->
+                        <article class="game-card card-type-1" id="card-game-type-1" data-game-type="1">
+                            <div class="card-badge" data-i18n="badge_vocab">Từ Vựng & Phát Âm</div>
+                            <div class="card-icon-container" aria-hidden="true">
+                                <span class="card-icon">🔤</span>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Game 1: Pronunciation & Vocabulary</h3>
+                                <p class="card-description" data-i18n="game1_desc">Nhận diện trọng âm từ, giải đố từ vựng theo định nghĩa và mẫu trọng âm chuẩn Unit 10.</p>
+                                <div class="card-meta">
+                                    <span class="meta-item">📝 25 <span data-i18n="meta_questions">câu</span></span>
+                                    <span class="meta-item">❤️ 3 <span data-i18n="meta_lives">mạng</span></span>
+                                    <span class="meta-item">🔥 Combo <span data-i18n="meta_bonus">thưởng</span></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-primary btn-block btn-start-game" data-game-type="1" id="btn-start-type-1">
+                                    <span data-i18n="btn_play_now">Bắt Đầu Chơi</span>
+                                </button>
+                            </div>
+                        </article>
+
+                        <!-- GAME CARD 2 -->
+                        <article class="game-card card-type-2" id="card-game-type-2" data-game-type="2">
+                            <div class="card-badge" data-i18n="badge_grammar">Ngữ Pháp Trắc Nghiệm</div>
+                            <div class="card-icon-container" aria-hidden="true">
+                                <span class="card-icon">📚</span>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Game 2: Grammar Mastery</h3>
+                                <p class="card-description" data-i18n="game2_desc">Luyện tập thì Hiện tại hoàn thành, Gerund & To-Infinitive, câu bị động và liên từ nâng cao.</p>
+                                <div class="card-meta">
+                                    <span class="meta-item">📝 25 <span data-i18n="meta_questions">câu</span></span>
+                                    <span class="meta-item">❤️ 3 <span data-i18n="meta_lives">mạng</span></span>
+                                    <span class="meta-item">💡 <span data-i18n="meta_explain">Giải thích</span></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-primary btn-block btn-start-game" data-game-type="2" id="btn-start-type-2">
+                                    <span data-i18n="btn_play_now">Bắt Đầu Chơi</span>
+                                </button>
+                            </div>
+                        </article>
+
+                        <!-- GAME CARD 3 -->
+                        <article class="game-card card-type-3 locked" id="card-game-type-3" data-game-type="3" aria-disabled="true">
+                            <div class="card-badge locked-badge" id="type-3-lock-pill">🔒 <span data-i18n="status_locked">ĐÃ KHÓA</span></div>
+                            <div class="card-icon-container" aria-hidden="true">
+                                <span class="card-icon">🎪</span>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Game 3: Fun Mini Games</h3>
+                                <p class="card-description" data-i18n="game3_desc">Trải nghiệm 3 cấp độ thử thách đặc biệt với các mini-game giải trí và tốc độ.</p>
+                                <div class="card-meta">
+                                    <span class="meta-item">🎮 3 <span data-i18n="meta_levels">cấp độ</span></span>
+                                    <span class="meta-item">⚡ 25 <span data-i18n="meta_challenges">thử thách</span></span>
+                                </div>
+                                <div class="lock-reason" id="type-3-lock-reason" data-i18n="game3_lock_reason">
+                                    ⚠️ Hoàn thành Game 1 & Game 2 (hoặc đăng nhập vai trò Giáo viên) để mở khóa.
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-disabled btn-block btn-start-game" data-game-type="3" id="btn-start-type-3" disabled>
+                                    <span data-i18n="btn_locked">Chưa Mở Khóa</span>
+                                </button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- G. GAME SCREEN -->
+                <section id="screen-game-play" class="app-screen game-play-screen" aria-label="Game Play Arena">
+                    <!-- HUD (HEADS-UP DISPLAY) -->
+                    <header class="game-hud" id="game-hud" aria-label="Game Status Bar">
+                        <div class="hud-row top-hud">
+                            <div class="hud-left">
+                                <span class="game-mode-badge" id="hud-game-title">Game Type</span>
+                                <span class="hud-question-counter" id="hud-question-counter">QUESTION 1 / 25</span>
+                            </div>
+                            <div class="hud-center">
+                                <div class="hud-lives" id="hud-lives-container" aria-label="Remaining Lives: 3">
+                                    <span class="heart-icon active" id="life-1">❤️</span>
+                                    <span class="heart-icon active" id="life-2">❤️</span>
+                                    <span class="heart-icon active" id="life-3">❤️</span>
+                                </div>
+                            </div>
+                            <div class="hud-right">
+                                <div class="hud-stat-pill" title="Combo">
+                                    <span aria-hidden="true">🔥</span>
+                                    <span id="hud-combo-val">0</span>
+                                </div>
+                                <div class="hud-stat-pill" title="Score">
+                                    <span aria-hidden="true">⭐</span>
+                                    <span id="hud-score-val">0</span>
+                                </div>
+                                <div class="hud-stat-pill timer-pill" id="hud-timer-container" title="Remaining Time">
+                                    <span aria-hidden="true">⏱️</span>
+                                    <span id="hud-timer-val">00:00</span>
+                                </div>
+                                <button type="button" class="btn-hud-quit" id="btn-quit-game" aria-label="Quit current game" title="Quit to selection">✖</button>
+                            </div>
+                        </div>
+
+                        <div class="hud-progress-container">
+                            <div class="hud-progress-bar" id="hud-progress-bar" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="100" style="width: 4%;"></div>
+                        </div>
+                    </header>
+
+                    <!-- DYNAMIC GAME PLAY AREA CONTAINER -->
+                    <div class="game-stage-container" id="game-stage">
+
+                        <!-- QUESTION ADD/EDIT AREA -->
+                        <!--
+                        QUESTION ADD/EDIT AREA:
+                        Các câu hỏi của Game Type 1 được quản lý trong script.js.
+                        Có thể thêm/sửa/xóa câu hỏi trong QUESTION_BANK.
+                        -->
+
+                        <!-- GAME TYPE 1: VOCABULARY & PRONUNCIATION TEMPLATE CONTAINER -->
+                        <div id="container-game-type-1" class="game-type-container">
+                            <div class="question-box">
+                                <div class="question-header">
+                                    <span class="question-type-tag" data-i18n="type1_tag">Stress Pattern & Definition</span>
+                                    <span class="stress-badge" id="type1-stress-pattern">• - -</span>
+                                </div>
+                                <div class="question-text" id="type1-question-prompt">
+                                    <!-- Dynamic content inserted by JS -->
+                                    the advantage (of something)
+                                </div>
+                                
+                                <div class="type1-interaction-area">
+                                    <div class="word-slots-display" id="type1-word-slots" aria-label="Word letter boxes">
+                                        <!-- Dynamic letter boxes -->
+                                    </div>
+
+                                    <div class="text-input-field-wrap">
+                                        <label for="type1-user-input" class="sr-only" data-i18n="type1_input_label">Nhập từ vựng của bạn</label>
+                                        <input type="text" id="type1-user-input" class="game-text-input" placeholder="Type your answer here..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GAME TYPE 2: GRAMMAR MULTIPLE CHOICE TEMPLATE CONTAINER -->
+                        <!--
+                        QUESTION ADD/EDIT AREA:
+                        Các câu Grammar được quản lý trong script.js.
+                        Có thể thêm câu hỏi mới vào QUESTION_BANK.grammar.
+                        -->
+                        <div id="container-game-type-2" class="game-type-container" style="display: none;">
+                            <div class="question-box">
+                                <div class="question-header">
+                                    <span class="question-type-tag" data-i18n="type2_tag">Grammar Selection</span>
+                                    <span class="grammar-hint-badge" id="type2-hint-badge">Choose the correct forms</span>
+                                </div>
+                                
+                                <div class="grammar-sentence-passage" id="type2-sentence-body">
+                                    <!-- Dynamic sentences with blank slots or dropdowns -->
+                                </div>
+
+                                <div class="grammar-options-grid" id="type2-options-container">
+                                    <!-- Dynamic options or choice pills injected here -->
+                                </div>
+
+                                <div class="grammar-explanation-card" id="type2-explanation-card" style="display: none;">
+                                    <h4 class="explain-heading" data-i18n="explain_title">💡 Giải thích chi tiết:</h4>
+                                    <p class="explain-body" id="type2-explanation-text"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GAME TYPE 3: FUN MINI GAMES CONTAINER -->
+                        <!--
+                        GAME TYPE 3 ADD/EDIT AREA:
+                        Nội dung 3 mini-game sẽ được bổ sung sau.
+                        Có thể thêm hoặc thay thế game trong script.js.
+                        -->
+                        <div id="container-game-type-3" class="game-type-container" style="display: none;">
+                            <div class="minigame-level-selector" id="type3-level-pills">
+                                <button type="button" class="level-pill active" data-level="1">Level 1</button>
+                                <button type="button" class="level-pill" data-level="2">Level 2</button>
+                                <button type="button" class="level-pill" data-level="3">Level 3</button>
+                            </div>
+
+                            <div class="minigame-placeholder-viewport" id="type3-dynamic-arena">
+                                <div class="placeholder-stage-card">
+                                    <div class="stage-icon" aria-hidden="true">🚀</div>
+                                    <h3 class="stage-title" id="type3-game-title">Speed Word Connect</h3>
+                                    <p class="stage-description" id="type3-game-desc">Nối các cụm từ collocations nhanh nhất có thể trước khi thời gian kết thúc.</p>
+                                    <div class="stage-interactive-zone" id="type3-interactive-board">
+                                        <!-- Dynamic mini-game board injected via JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- GAME CONTROLS FOOTER -->
+                    <footer class="game-actions-bar">
+                        <button type="button" id="btn-check-answer" class="btn btn-primary btn-lg">
+                            <span data-i18n="btn_submit_check">Kiểm Tra / Nộp Bài</span>
+                        </button>
+                        <button type="button" id="btn-next-question" class="btn btn-secondary btn-lg" style="display: none;">
+                            <span data-i18n="btn_next_question">Câu Kế Tiếp</span> →
+                        </button>
+                    </footer>
+                </section>
+
+                <!-- H. RESULT SCREEN -->
+                <section id="screen-result" class="app-screen result-screen" aria-labelledby="result-heading">
+                    <div class="result-modal-box">
+                        <div class="result-confetti-header">
+                            <span class="result-trophy" id="result-trophy-icon">🎉</span>
+                            <div class="new-record-pill" id="result-record-pill" style="display: none;">🔥 KỶ LỤC MỚI!</div>
+                            <h2 id="result-heading" class="result-title" data-i18n="result_congrats">Chúc Mừng Bạn!</h2>
+                            <p class="result-subtitle" id="result-status-msg">Bạn đã xuất sắc hoàn thành màn chơi</p>
+                        </div>
+
+                        <div class="result-scoreboard">
+                            <div class="score-main-display">
+                                <span class="score-caption" data-i18n="result_score_earned">Điểm Số Đạt Được</span>
+                                <span class="score-huge" id="result-score-val">1250</span>
+                            </div>
+
+                            <div class="result-stats-matrix">
+                                <div class="result-matrix-cell">
+                                    <span class="cell-label" data-i18n="result_correct">Đúng</span>
+                                    <span class="cell-val text-green" id="result-correct-count">25</span>
+                                </div>
+                                <div class="result-matrix-cell">
+                                    <span class="cell-label" data-i18n="result_wrong">Sai</span>
+                                    <span class="cell-val text-red" id="result-wrong-count">0</span>
+                                </div>
+                                <div class="result-matrix-cell">
+                                    <span class="cell-label" data-i18n="result_accuracy">Độ Chính Xác</span>
+                                    <span class="cell-val" id="result-accuracy-pct">100%</span>
+                                </div>
+                                <div class="result-matrix-cell">
+                                    <span class="cell-label" data-i18n="result_combo">Max Combo</span>
+                                    <span class="cell-val text-orange" id="result-max-combo">🔥 25</span>
+                                </div>
+                                <div class="result-matrix-cell">
+                                    <span class="cell-label" data-i18n="result_lives_left">Mạng Còn Lại</span>
+                                    <span class="cell-val" id="result-lives-left">❤️❤️❤️</span>
+                                </div>
+                                <div class="result-matrix-cell">
+                                    <span class="cell-label" data-i18n="result_best_score">Điểm Kỷ Lục</span>
+                                    <span class="cell-val" id="result-best-score">1250</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="result-unlock-notice" id="result-unlock-banner" style="display: none;">
+                            <span class="notice-icon" aria-hidden="true">🔓</span>
+                            <div class="notice-text">
+                                <strong data-i18n="result_unlocked_title">Mở Khóa Thành Công:</strong>
+                                <span id="result-unlock-desc">Game Type 3 đã sẵn sàng để thử sức!</span>
+                            </div>
+                        </div>
+
+                        <div class="result-actions-group">
+                            <button type="button" class="btn btn-primary btn-lg" id="btn-result-next-level">
+                                <span data-i18n="btn_next_level">Màn Tiếp Theo</span> →
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-lg" id="btn-result-replay">
+                                <span aria-hidden="true">🔄</span>
+                                <span data-i18n="btn_replay">Chơi Lại</span>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-lg" id="btn-result-dashboard">
+                                <span aria-hidden="true">🏠</span>
+                                <span data-i18n="btn_dashboard">Về Dashboard</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- USER PROFILE -->
+                <!-- I. PROFILE -->
+                <section id="screen-profile" class="app-screen profile-screen" aria-labelledby="profile-heading">
+                    <div class="profile-layout">
+                        <div class="profile-card">
+                            <div class="profile-avatar-zone">
+                                <div class="profile-avatar-large" id="profile-avatar-display">🎓</div>
+                                <h2 id="profile-heading" class="profile-user-fullname" id="profile-name">Nguyễn Văn An</h2>
+                                <span class="profile-role-badge" id="profile-role-badge">Học sinh</span>
+                            </div>
+
+                            <div class="profile-info-list">
+                                <div class="info-row">
+                                    <span class="info-label" data-i18n="prof_dob">Ngày Sinh:</span>
+                                    <span class="info-val" id="profile-dob">01/01/2008</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label" data-i18n="prof_email">Email:</span>
+                                    <span class="info-val" id="profile-email">an.nguyen@example.com</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label" data-i18n="prof_joined">Ngày Tham Gia:</span>
+                                    <span class="info-val" id="profile-joined-date">10/10/2023</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-actions-bottom">
+                                <button type="button" class="btn btn-secondary btn-block" id="btn-edit-profile" data-i18n="btn_edit_profile">Chỉnh Sửa Thông Tin</button>
+                                <button type="button" class="btn btn-danger btn-block" id="btn-reset-data" data-i18n="btn_reset_data">Xóa Dữ Liệu & Chơi Lại</button>
+                            </div>
+                        </div>
+
+                        <div class="profile-stats-card">
+                            <h3 class="stats-heading" data-i18n="prof_learning_stats">Thống Kê Quá Trình Học</h3>
+                            <div class="profile-progress-summary">
+                                <div class="progress-bar-labeled">
+                                    <div class="bar-labels">
+                                        <span data-i18n="prof_prog_type1">Game 1: Pronunciation & Vocab</span>
+                                        <span id="prof-prog-pct-1">100%</span>
+                                    </div>
+                                    <div class="meter"><span id="prof-bar-1" style="width: 100%;"></span></div>
+                                </div>
+
+                                <div class="progress-bar-labeled">
+                                    <div class="bar-labels">
+                                        <span data-i18n="prof_prog_type2">Game 2: Grammar Mastery</span>
+                                        <span id="prof-prog-pct-2">80%</span>
+                                    </div>
+                                    <div class="meter"><span id="prof-bar-2" style="width: 80%;"></span></div>
+                                </div>
+
+                                <div class="progress-bar-labeled">
+                                    <div class="bar-labels">
+                                        <span data-i18n="prof_prog_type3">Game 3: Fun Mini Games</span>
+                                        <span id="prof-prog-pct-3">20%</span>
+                                    </div>
+                                    <div class="meter"><span id="prof-bar-3" style="width: 20%;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ACHIEVEMENTS SCREEN -->
+                <section id="screen-achievements" class="app-screen achievements-screen" aria-labelledby="achieve-heading">
+                    <div class="section-header">
+                        <h2 id="achieve-heading" class="section-title" data-i18n="achieve_title">Bảng Thành Tích</h2>
+                        <p class="section-desc" data-i18n="achieve_desc">Huy hiệu và phần thưởng bạn đã đạt được trong kỳ học</p>
+                    </div>
+
+                    <div class="achievements-grid" id="achievements-grid">
+                        <!-- Dynamic or static badge items -->
+                        <div class="badge-card unlocked">
+                            <div class="badge-icon">🎖️</div>
+                            <h4 class="badge-title">First Step</h4>
+                            <p class="badge-desc">Hoàn thành bài tập đầu tiên</p>
+                        </div>
+                        <div class="badge-card unlocked">
+                            <div class="badge-icon">⚡</div>
+                            <h4 class="badge-title">Combo Master</h4>
+                            <p class="badge-desc">Đạt chuỗi 10 câu đúng liên tiếp</p>
+                        </div>
+                        <div class="badge-card unlocked">
+                            <div class="badge-icon">🎯</div>
+                            <h4 class="badge-title">Grammar Guru</h4>
+                            <p class="badge-desc">Hoàn thành 25 câu ngữ pháp</p>
+                        </div>
+                        <div class="badge-card locked">
+                            <div class="badge-icon">👑</div>
+                            <h4 class="badge-title">Class Champion</h4>
+                            <p class="badge-desc">Đạt tổng điểm trên 5,000</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CERTIFICATE -->
+                <!-- J. CERTIFICATE -->
+                <section id="screen-certificate" class="app-screen certificate-screen" aria-labelledby="cert-section-heading">
+                    <div class="cert-toolbar no-print">
+                        <h2 id="cert-section-heading" class="cert-view-title" data-i18n="cert_view_title">Chứng Chỉ Thành Tựu</h2>
+                        <div class="cert-actions">
+                            <button type="button" class="btn btn-primary" id="btn-print-cert">
+                                <span aria-hidden="true">🖨️</span>
+                                <span data-i18n="btn_print_cert">In Chứng Chỉ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="certificate-paper" id="certificate-printable">
+                        <div class="cert-outer-border">
+                            <div class="cert-inner-border">
+                                <div class="cert-watermark" aria-hidden="true">ENG10</div>
+                                
+                                <div class="cert-header">
+                                    <div class="cert-seal-icon" aria-hidden="true">🏅</div>
+                                    <h3 class="cert-org-name" data-i18n="cert_org">BỘ MÔN TIẾNG ANH LỚP 10</h3>
+                                    <h4 class="cert-main-heading" data-i18n="cert_title">CHỨNG NHẬN HOÀN THÀNH</h4>
+                                </div>
+
+                                <div class="cert-body">
+                                    <p class="cert-text-intro" data-i18n="cert_presented_to">Chứng chỉ này trân trọng trao tặng cho:</p>
+                                    <div class="cert-recipient-name" id="cert-user-name">NGUYỄN VĂN AN</div>
+                                    <p class="cert-role-line"><span data-i18n="cert_role">Vai trò:</span> <span id="cert-user-role">Học Sinh</span></p>
+
+                                    <p class="cert-description-para">
+                                        <span data-i18n="cert_has_completed">Đã xuất sắc hoàn thành xuất sắc hệ thống chuyên đề</span>
+                                        <strong>"Grade 10 English Interactive Mastery & Vocabulary Program"</strong>
+                                    </p>
+
+                                    <div class="cert-metrics-row">
+                                        <div class="cert-metric-col">
+                                            <span class="cert-metric-label" data-i18n="cert_total_score">Tổng Điểm:</span>
+                                            <span class="cert-metric-val" id="cert-score-display">2,500</span>
+                                        </div>
+                                        <div class="cert-metric-col">
+                                            <span class="cert-metric-label" data-i18n="cert_highest_streak">Chuỗi Thắng Cao Nhất:</span>
+                                            <span class="cert-metric-val" id="cert-streak-display">🔥 15</span>
+                                        </div>
+                                        <div class="cert-metric-col">
+                                            <span class="cert-metric-label" data-i18n="cert_status">Trạng Thái:</span>
+                                            <span class="cert-metric-val text-green" id="cert-status-display">XUẤT SẮC (DISTINCTION)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="cert-footer">
+                                    <div class="cert-timestamp-block">
+                                        <p class="cert-date-line">
+                                            <span data-i18n="cert_issued_on">Cấp ngày:</span> 
+                                            <span id="cert-issue-date">10</span>/<span id="cert-issue-month">10</span>/<span id="cert-issue-year">2023</span>
+                                            - <span id="cert-issue-time">14:30</span>
+                                        </p>
+                                        <span class="cert-id-tag">ID: ENG10-VERIFIED-CERT</span>
+                                    </div>
+                                    <div class="cert-signature-block">
+                                        <div class="cert-fake-signature">English Master</div>
+                                        <div class="cert-sign-line"></div>
+                                        <span class="cert-signer-title" data-i18n="cert_instructor">Trưởng Ban Đào Tạo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- K. ABOUT ME & SOURCE CODE VIEWER -->
+                <section id="screen-about" class="app-screen about-screen" aria-labelledby="about-heading">
+                    <div class="section-header">
+                        <h2 id="about-heading" class="section-title" data-i18n="about_title">Thông Tin Dự Án & Tác Giả</h2>
+                        <p class="section-desc" data-i18n="about_desc">Mini-game Website giáo dục tương tác Tiếng Anh lớp 10</p>
+                    </div>
+
+                    <div class="about-card-container">
+                        <div class="about-info-panel">
+                            <div class="developer-identity">
+                                <div class="dev-avatar" aria-hidden="true">👨‍💻</div>
+                                <div class="dev-meta">
+                                    <h3 class="dev-name">Senior Frontend Developer</h3>
+                                    <span class="dev-tagline">Educational Technology & Gamification Specialist</span>
+                                </div>
+                            </div>
+
+                            <div class="project-brief">
+                                <h4 data-i18n="about_tech_stack">Công Nghệ Xây Dựng:</h4>
+                                <ul class="tech-stack-tags">
+                                    <li>HTML5 Semantic</li>
+                                    <li>Pure Modular CSS3 (Design Tokens, Responsive Grid)</li>
+                                    <li>Vanilla JavaScript (ES6+, State Management, LocalStorage)</li>
+                                    <li>Zero Frameworks / Pure Native Performance</li>
+                                </ul>
+
+                                <h4 data-i18n="about_goals">Mục Tiêu Thiết Kế:</h4>
+                                <p data-i18n="about_goals_text">
+                                    Tối ưu hóa khả năng ghi nhớ kiến thức trọng âm, từ vựng và cấu trúc ngữ pháp Tiếng Anh 10 qua cơ chế Game hóa (Lives, Streak, Combo, Timer, Thử thách phân tầng). Phù hợp trên cả máy tính, di động và máy chiếu trường học.
+                                </p>
+                            </div>
+
+                            <!-- SOURCE CODE VIEWER TRIGGER -->
+                            <div class="source-code-trigger-box">
+                                <button type="button" class="btn btn-primary btn-lg" id="btn-open-source-modal">
+                                    <span aria-hidden="true">💻</span>
+                                    <span data-i18n="btn_view_source">View Source Code</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- L. SETTINGS -->
+                <section id="screen-settings" class="app-screen settings-screen" aria-labelledby="settings-heading">
+                    <div class="section-header">
+                        <h2 id="settings-heading" class="section-title" data-i18n="settings_title">Cài Đặt Hệ Thống</h2>
+                        <p class="section-desc" data-i18n="settings_desc">Tùy chỉnh giao diện, ngôn ngữ và trải nghiệm làm bài</p>
+                    </div>
+
+                    <div class="settings-card">
+                        <!-- Setting: Language -->
+                        <div class="setting-item">
+                            <div class="setting-text">
+                                <span class="setting-title" data-i18n="set_language">Ngôn Ngữ Hiển Thị</span>
+                                <span class="setting-desc" data-i18n="set_language_desc">Chuyển đổi giữa Tiếng Việt và English</span>
+                            </div>
+                            <div class="setting-control">
+                                <select id="setting-language" class="form-select form-select-sm">
+                                    <option value="vi">Tiếng Việt</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Setting: Theme -->
+                        <div class="setting-item">
+                            <div class="setting-text">
+                                <span class="setting-title" data-i18n="set_theme">Chế Độ Giao Diện</span>
+                                <span class="setting-desc" data-i18n="set_theme_desc">Chuyển đổi giữa chế độ Sáng (Light) và Tối (Dark)</span>
+                            </div>
+                            <div class="setting-control">
+                                <select id="setting-theme" class="form-select form-select-sm">
+                                    <option value="dark">Dark Mode (Tối)</option>
+                                    <option value="light">Light Mode (Sáng)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Setting: Sound -->
+                        <div class="setting-item">
+                            <div class="setting-text">
+                                <span class="setting-title" data-i18n="set_sound">Âm Thanh Hiệu Ứng</span>
+                                <span class="setting-desc" data-i18n="set_sound_desc">Bật/Tắt âm thanh thông báo và click</span>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="setting-sound" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Setting: Timer -->
+                        <div class="setting-item">
+                            <div class="setting-text">
+                                <span class="setting-title" data-i18n="set_timer">Đồng Hồ Đếm Giờ (Timer)</span>
+                                <span class="setting-desc" data-i18n="set_timer_desc">Bật áp lực thời gian trong từng câu hỏi</span>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="setting-timer" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+        <!-- M. FAKE BOT VERIFICATION MODAL -->
+        <dialog id="modal-bot-verify" class="app-modal bot-modal" aria-labelledby="bot-modal-title">
+            <div class="modal-dialog-card bot-verify-box">
+                <div class="bot-card-header">
+                    <div class="bot-cf-logo" aria-hidden="true">🛡️</div>
+                    <h3 id="bot-modal-title" class="bot-title">Security Check</h3>
+                    <p class="bot-subtitle">Please verify you are human to protect school leaderboard</p>
+                </div>
+
+                <div class="bot-challenge-frame">
+                    <div class="cf-widget-box" id="cf-interactive-trigger">
+                        <div class="cf-checkbox-wrap">
+                            <input type="checkbox" id="bot-checkbox" class="cf-real-checkbox">
+                            <div class="cf-custom-box" id="cf-spinner-box"></div>
+                        </div>
+                        <label for="bot-checkbox" class="cf-label">I am not a robot</label>
+                        <div class="cf-logo-tag">
+                            <span class="cf-tag-icon">⚡</span>
+                            <span class="cf-tag-text">EngGuard</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bot-card-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-close-bot-modal">Đóng</button>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- SOURCE CODE VIEWER -->
+        <dialog id="modal-source-code" class="app-modal source-modal" aria-labelledby="source-modal-title">
+            <div class="modal-dialog-card source-dialog-layout">
+                <div class="source-modal-header">
+                    <div class="source-header-tabs" role="tablist">
+                        <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-html" id="tab-btn-html">index.html</button>
+                        <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="tab-css" id="tab-btn-css">style.css</button>
+                        <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="tab-js" id="tab-btn-js">script.js</button>
+                    </div>
+                    <div class="source-header-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" id="btn-copy-code">
+                            <span aria-hidden="true">📋</span> <span data-i18n="btn_copy">Sao chép code</span>
+                        </button>
+                        <button type="button" class="icon-button" id="btn-close-source-modal" aria-label="Close Source Code Viewer">✕</button>
+                    </div>
+                </div>
+
+                <div class="source-modal-body">
+                    <div id="tab-html" class="tab-panel active" role="tabpanel">
+                        <pre class="code-pre"><code class="code-block" id="code-display-html">&lt;!-- index.html Source Code loaded in JavaScript --&gt;</code></pre>
+                    </div>
+                    <div id="tab-css" class="tab-panel" role="tabpanel" style="display: none;">
+                        <pre class="code-pre"><code class="code-block" id="code-display-css">/* style.css loaded in JavaScript */</code></pre>
+                    </div>
+                    <div id="tab-js" class="tab-panel" role="tabpanel" style="display: none;">
+                        <pre class="code-pre"><code class="code-block" id="code-display-js">// script.js loaded in JavaScript</code></pre>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- O. CONFIRMATION MODAL -->
+        <dialog id="modal-confirm" class="app-modal confirm-modal" aria-labelledby="confirm-modal-title">
+            <div class="modal-dialog-card confirm-box">
+                <div class="confirm-icon-wrap" id="confirm-icon">⚠️</div>
+                <h3 id="confirm-modal-title" class="confirm-title">Xác nhận thoát?</h3>
+                <p id="confirm-modal-msg" class="confirm-message">Tiến trình làm bài của màn chơi hiện tại sẽ bị hủy và tính là mất 1 lượt.</p>
+                <div class="confirm-actions">
+                    <button type="button" class="btn btn-secondary" id="btn-confirm-cancel">Hủy Bỏ</button>
+                    <button type="button" class="btn btn-danger" id="btn-confirm-accept">Đồng Ý Thoát</button>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- N. NOTIFICATION / TOAST CONTAINER -->
+        <aside id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></aside>
+
+    </div>
+
+    <!-- External JavaScript Link -->
+    <script src="script.js"></script>
+</body>
+</html>
